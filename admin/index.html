@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HaiCenema - Admin Panel</title>
+    <!-- Fonts and Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Left Sidebar -->
+        <aside id="left-sidebar">
+            <div class="sidebar-content">
+                <header class="sidebar-header">HaiCenema</header>
+                <nav class="sidebar-nav">
+                    <a href="#" class="nav-link active" data-section="movies">
+                        <span class="material-symbols-outlined">movie</span>
+                        <span>Movies</span>
+                    </a>
+                    <a href="#" class="nav-link" data-section="series">
+                        <span class="material-symbols-outlined">tv_gen</span>
+                        <span>Series</span>
+                    </a>
+                    <a href="#" class="nav-link" data-section="livetv">
+                        <span class="material-symbols-outlined">satellite_alt</span>
+                        <span>Live TV</span>
+                    </a>
+                </nav>
+                <div class="sidebar-footer">
+                    <nav class="sidebar-nav">
+                        <button id="permissions-btn">
+                            <span class="material-symbols-outlined">shield</span>
+                            <span>Permissions</span>
+                        </button>
+                        <button id="banner-btn">
+                            <span class="material-symbols-outlined">imagesmode</span>
+                            <span>Banners</span>
+                        </button>
+                    </nav>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="main-wrapper">
+            <header class="main-header">
+                <button class="icon-button" id="menu-toggle">
+                    <span class="material-symbols-outlined">menu</span>
+                </button>
+                <h1 id="header-title" class="header-title">Movies</h1>
+            </header>
+
+            <main class="content-area">
+                <!-- Screens -->
+                <div id="movies-screen" class="screen active">
+                    <div class="content-wrapper" id="movies-content-area"></div>
+                </div>
+                <div id="series-screen" class="screen">
+                     <div class="content-wrapper" id="series-content-area"></div>
+                </div>
+                <div id="livetv-screen" class="screen">
+                     <div class="content-wrapper" id="livetv-content-area"></div>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <!-- Floating Action Button -->
+    <button id="fab" class="btn btn-primary">
+        <span class="material-symbols-outlined">add</span>
+    </button>
+    
+    <!-- Modals -->
+    <div id="form-modal-overlay" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Add Content</h2>
+                <button class="icon-button" id="form-close-btn"><span class="material-symbols-outlined">close</span></button>
+            </div>
+            <div class="modal-body">
+                <form id="data-form">
+                    <input type="hidden" id="edit-id">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" placeholder="Content Title">
+                    </div>
+                    <div class="form-group">
+                        <label for="image-url">Image URL</label>
+                        <input type="url" id="image-url" placeholder="https://example.com/image.jpg">
+                    </div>
+                    
+                    <div id="movie-fields" class="hidden">
+                         <div class="form-group">
+                            <label for="movie-url">Movie URL</label>
+                            <input type="url" id="movie-url" placeholder="https://example.com/movie.mp4">
+                        </div>
+                        <div class="form-group">
+                            <label for="catalogue">Catalogue</label>
+                            <select id="catalogue" class="form-group input">
+                                <option>action/adventure</option><option>comedy/drama</option><option>dance/music</option><option>hollywood adventure</option><option>hollywood movie</option><option>horror</option><option>marathi tadka</option><option>marvel universe</option><option>romance/drama</option><option>sci-fi adventure</option><option>south movie</option><option>sport/motivation</option><option>thriller/crime</option><option>cartoon movie</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="series-fields" class="hidden">
+                        <div class="form-group">
+                            <label for="series-number">Series Number</label>
+                            <input type="number" id="series-number" placeholder="1">
+                        </div>
+                        <div id="episodes-container"></div>
+                        <button type="button" id="add-episode-btn" class="btn btn-secondary" style="width: 100%; margin-top: 1rem;">Add Episode</button>
+                    </div>
+
+                    <div id="livetv-fields" class="hidden">
+                        <div class="form-group">
+                            <label for="livetv-url">Live TV URL</label>
+                            <input type="url" id="livetv-url" placeholder="https://example.com/stream.m3u8">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group-inline" style="margin-top: 24px;">
+                        <label for="is-public">Public</label>
+                        <label class="switch"><input type="checkbox" id="is-public" checked><span class="slider"></span></label>
+                    </div>
+
+                    <div class="profile-actions" style="margin-top: 24px;">
+                        <button type="button" id="cancel-btn" class="btn btn-secondary">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="permissions-modal-overlay" class="modal-overlay">
+        <div class="modal-content">
+             <div class="modal-header">
+                <h2>Live TV Permissions</h2>
+                <button class="icon-button" id="close-permissions-btn"><span class="material-symbols-outlined">close</span></button>
+            </div>
+             <div class="modal-body" id="permissions-list"></div>
+        </div>
+    </div>
+    
+    <div id="banner-modal-overlay" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Manage Banners</h2>
+                <button class="icon-button" id="close-banner-btn"><span class="material-symbols-outlined">close</span></button>
+            </div>
+            <div class="modal-body">
+                <form id="banner-form" class="prompt-input-wrapper" style="padding: 0; gap:0;">
+                    <input type="url" id="banner-url" class="prompt-input" placeholder="https://example.com/banner.jpg" style="padding: 12px;">
+                    <input type="hidden" id="banner-edit-id">
+                    <button type="submit" class="send-button active"><span class="material-symbols-outlined">add</span></button>
+                </form>
+                <div id="banner-list" style="margin-top: 16px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="confirm-dialog-overlay" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header"><h2 id="confirm-title">Confirm Action</h2></div>
+            <div class="modal-body">
+                <p id="confirm-message">Are you sure?</p>
+                <div class="profile-actions" style="margin-top: 24px;">
+                    <button id="confirm-cancel" class="btn btn-secondary">Cancel</button>
+                    <button id="confirm-ok" class="btn btn-primary" style="background-color: var(--error-color);">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay for mobile sidebar -->
+    <div class="overlay"></div>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>

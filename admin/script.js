@@ -2,14 +2,16 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/fireba
 import { getFirestore, collection, addDoc, onSnapshot, doc, setDoc, deleteDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 // IMPORTANT: Replace with your actual Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-    apiKey: "AIzaSyDhdItehDKZJT7Ihqb-AjUtZVT7yOfYKtA",
-    authDomain: "filmx-bfac5.firebaseapp.com",
-    databaseURL: "https://filmx-bfac5-default-rtdb.firebaseio.com",
-    projectId: "filmx-bfac5",
-    storageBucket: "filmx-bfac5.appspot.com",
-    messagingSenderId: "506741430153",
-    appId: "1:506741430153:web:d5590373c9ca74c595b358"
+  apiKey: "AIzaSyDwH5hg4QRYcTzyPd492L9g2xG3QPvCWMY",
+  authDomain: "haicenema.firebaseapp.com",
+  databaseURL: "https://haicenema-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "haicenema",
+  storageBucket: "haicenema.firebasestorage.app",
+  messagingSenderId: "825485404342",
+  appId: "1:825485404342:web:c488be2082a9b30c3cde17",
+  measurementId: "G-9YG52515FX"
 };
 
 const app = initializeApp(firebaseConfig);

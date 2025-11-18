@@ -55,6 +55,10 @@ const ui = {
     addEpisodeBtn: document.getElementById('add-episode-btn'),
     livetvFields: document.getElementById('livetv-fields'),
     livetvUrlInput: document.getElementById('livetv-url'),
+    livetvSourceType: document.getElementById('livetv-source-type'),
+    livetvMpdFields: document.getElementById('livetv-mpd-fields'),
+    livetvKeyInput: document.getElementById('livetv-key'),
+    livetvKidInput: document.getElementById('livetv-kid'),
     cancelBtn: document.getElementById('cancel-btn'),
     formCloseBtn: document.getElementById('form-close-btn'),
     // Permissions Modal
@@ -92,6 +96,11 @@ const showConfirmation = (title, message) => {
     });
 };
 
+function handleLiveTvSourceChange() {
+    const sourceType = ui.livetvSourceType.value;
+    ui.livetvMpdFields.classList.toggle('hidden', sourceType !== 'mpd');
+}
+
 function addEpisodeInput(episode = { url: '', imageUrl: '' }) {
     episodeCounter++;
     const episodeDiv = document.createElement('div');
@@ -120,6 +129,8 @@ function resetForm() {
     ui.movieFields.classList.add('hidden');
     ui.seriesFields.classList.add('hidden');
     ui.livetvFields.classList.add('hidden');
+    ui.livetvSourceType.value = 'm3u8';
+    handleLiveTvSourceChange();
 }
 
 function showModal(type, data = null) {
@@ -147,7 +158,13 @@ function showModal(type, data = null) {
         if (data) {
             ui.editId.value = data.id; ui.nameInput.value = data.name; ui.imageUrlInput.value = data.imageUrl;
             ui.livetvUrlInput.value = data.liveTvUrl; ui.isPublicInput.checked = data.isPublic;
+            
+            const sourceType = data.sourceType || 'm3u8';
+            ui.livetvSourceType.value = sourceType;
+            ui.livetvKeyInput.value = data.key || '';
+            ui.livetvKidInput.value = data.kid || '';
         }
+        handleLiveTvSourceChange();
     }
     ui.formModalOverlay.classList.add('visible');
 }
@@ -174,7 +191,22 @@ async function saveData(e) {
             }))
         };
     } else if (currentSection === 'livetv') {
-        data = { ...commonData, liveTvUrl: ui.livetvUrlInput.value };
+        const sourceType = ui.livetvSourceType.value;
+        data = {
+            ...commonData,
+            sourceType,
+            liveTvUrl: ui.livetvUrlInput.value,
+        };
+
+        if (id) {
+            data.key = null;
+            data.kid = null;
+        }
+
+        if (sourceType === 'mpd') {
+            data.key = ui.livetvKeyInput.value;
+            data.kid = ui.livetvKidInput.value;
+        }
     }
 
     try {
@@ -336,6 +368,7 @@ ui.cancelBtn.addEventListener('click', hideAllModals);
 ui.formCloseBtn.addEventListener('click', hideAllModals);
 ui.dataForm.addEventListener('submit', saveData);
 ui.addEpisodeBtn.addEventListener('click', () => addEpisodeInput());
+ui.livetvSourceType.addEventListener('change', handleLiveTvSourceChange);
 
 ui.navLinks.forEach(link => {
     link.addEventListener('click', (e) => {

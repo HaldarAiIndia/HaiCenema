@@ -5,43 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HaiCenema</title>
 
- <!-- SEO Description -->
-  <meta name="description" content="HaiCenema is your home for unlimited movies, trending webseries, and ultra-fast Live TV streaming. Watch anytime, anywhere — no limits.">
+    <!-- SEO Description -->
+    <meta name="description" content="HaiCenema is your home for unlimited movies, trending webseries, and ultra-fast Live TV streaming. Watch anytime, anywhere — no limits.">
+    <meta name="keywords" content="movies, webseries, live tv, streaming, cinema, entertainment, watch movies online">
+    <meta name="author" content="HaiCenema">
+    <meta name="robots" content="index, follow">
 
-<!-- Keywords (optional but useful) -->
-  <meta name="keywords" content="movies, webseries, live tv, streaming, cinema, entertainment, watch movies online">
+    <!-- Open Graph -->
+    <meta property="og:title" content="HaiCenema – Stream Movies & Live TV">
+    <meta property="og:description" content="Unlimited movies, webseries, and live TV streaming in one place.">
+    <meta property="og:image" content="/favicon.png">
+    <meta property="og:type" content="website">
 
- <!-- Author -->
-  <meta name="author" content="HaiCenema">
-
- <!-- Robots (allow indexing) -->
-  <meta name="robots" content="index, follow">
-
-  <!-- Open Graph (for social media preview) -->
-  <meta property="og:title" content="HaiCenema – Stream Movies & Live TV">
-  <meta property="og:description" content="Unlimited movies, webseries, and live TV streaming in one place.">
-  <meta property="og:image" content="/favicon.png">
-  <meta property="og:type" content="website">
-
-
-<!-- Favicon -->
-<link rel="icon" type="image/png" sizes="512x512" href="/favicon.png">
-
-<!-- Apple / iOS Icon -->
-<link rel="apple-touch-icon" href="/favicon.png">
-
-<!-- Web Manifest for PWA -->
-<link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#ffffff">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/favicon.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#ffffff">
     
-    
+    <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-    <script src="https://unpkg.com/lucide@latest"></script>
     
-    <!-- UPDATED: Added Shaka Player for DASH streaming -->
+    <!-- Libraries -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Shaka Player for DASH/DRM -->
     <script src="https://ajax.googleapis.com/ajax/libs/shaka-player/4.3.4/shaka-player.compiled.js"></script>
 
     <style>
@@ -100,7 +91,7 @@
         .item-card { display: block; flex-shrink: 0; width: 160px; margin-right: 16px; }
         .item-card-image-container { position: relative; aspect-ratio: 2 / 3; border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color); transition: border-color 0.2s, transform 0.2s; }
         body:not(.touch-device) .item-card:hover .item-card-image-container { border-color: var(--text-active); transform: translateY(-4px); }
-        .item-card-image { width: 100%; height: 100%; object-cover; }
+        .item-card-image { width: 100%; height: 100%; object-fit: cover; }
         .item-card-label { position: absolute; bottom: 0; left: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); font-size: 0.75rem; padding: 2px 8px; border-top-right-radius: 8px; }
         .item-card-title { font-size: 0.9rem; margin-top: 8px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center; }
         
@@ -111,7 +102,7 @@
         .banner-item { width: 50%; flex-shrink: 0; padding: 0 8px; }
         @media (min-width: 768px) { .banner-item { width: 33.333%; } }
         @media (min-width: 1024px) { .banner-item { width: 25%; } }
-        .banner-item img { width: 100%; aspect-ratio: 16 / 7; object-cover; border-radius: 12px; }
+        .banner-item img { width: 100%; aspect-ratio: 16 / 7; object-fit: cover; border-radius: 12px; }
         @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
         #search-input-container { flex-grow: 1; max-width: 500px; transition: opacity 0.2s ease, visibility 0.2s; }
@@ -136,15 +127,10 @@
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
             animation: shimmer 1.5s infinite;
         }
-        @keyframes shimmer {
-            100% {
-                transform: translateX(100%);
-            }
-        }
+        @keyframes shimmer { 100% { transform: translateX(100%); } }
     </style>
 </head>
 <body>
-    <script src="https://cdn.tailwindcss.com"></script>
 
     <div class="app-container">
         <!-- Sidebar Navigation -->
@@ -157,7 +143,7 @@
                     <a href="#movies" class="nav-item active" data-section="movies"><span class="material-symbols-outlined">movie</span>Movies</a>
                     <a href="#series" class="nav-item" data-section="series"><span class="material-symbols-outlined">live_tv</span>Series</a>
                     <a href="#livetv" class="nav-item" data-section="livetv"><span class="material-symbols-outlined">satellite_alt</span>Live TV</a>
-<a href="#" class="nav-item" onclick="event.preventDefault(); window.open('https://HaiCenema.vercel.app/review', '_blank');"><span class="material-symbols-outlined">rate_review</span>Review</a>
+                    <a href="#" class="nav-item" onclick="event.preventDefault(); window.open('https://HaiCenema.vercel.app/review', '_blank');"><span class="material-symbols-outlined">rate_review</span>Review</a>
                 </nav>
             </div>
         </aside>
@@ -181,20 +167,25 @@
         </div>
     </div>
     
+    <!-- Player View: UPDATED for Larger Size -->
     <div id="player-view" class="fixed inset-0 bg-bg-primary z-[60] flex-col hidden transition-opacity duration-300 opacity-0">
-         <div class="w-full bg-black">
-            <div class="relative max-w-7xl mx-auto">
+         <div class="w-full bg-black shadow-2xl">
+            <!-- UPDATED: Removed max-w-7xl and made it responsive full width (up to 1600px) -->
+            <div class="relative w-full mx-auto lg:max-w-[90%] xl:max-w-[1600px]">
                 <div class="relative w-full aspect-video">
-                    <button id="close-player-btn" class="absolute top-4 left-4 z-10 p-2 bg-black bg-opacity-50 rounded-full text-white hover:bg-opacity-70">
+                    <button id="close-player-btn" class="absolute top-4 left-4 z-10 p-2 bg-black bg-opacity-50 rounded-full text-white hover:bg-opacity-70 transition-all">
                         <i data-lucide="arrow-left" class="w-6 h-6"></i>
                     </button>
-                    <video id="video-player" controls controlslist="nodownload" class="w-full h-full object-contain"></video>
+                    <!-- Native/Shaka Player -->
+                    <video id="video-player" controls controlslist="nodownload" class="w-full h-full object-contain bg-black"></video>
+                    <!-- iFrame Embed Player -->
+                    <iframe id="video-iframe" class="w-full h-full absolute top-0 left-0 hidden" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
                 </div>
              </div>
          </div>
          <div class="flex-grow p-4 overflow-y-auto">
              <div class="max-w-7xl mx-auto">
-                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center">
+                <div class="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center">
                     <h2 id="player-title" class="text-2xl font-bold mb-2 text-text-primary">Title</h2>
                     <div class="flex items-center space-x-4 mt-2 sm:mt-0">
                         <div class="flex items-center space-x-1 text-text-secondary">
@@ -212,7 +203,7 @@
                     <div class="flex justify-between items-center mb-3">
                         <h3 class="text-xl font-semibold">Related</h3>
                         <div class="flex items-center space-x-2">
-                            <label for="autoplay-toggle-input" class="text-sm text-text-secondary cursor-pointer">Autoplay</label>
+                            <label for="autoplay-toggle" class="text-sm text-text-secondary cursor-pointer select-none">Autoplay</label>
                             <button id="autoplay-toggle" role="switch" aria-checked="false" class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-bg-tertiary transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-bg-primary">
                                 <span id="autoplay-indicator" class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out translate-x-0"></span>
                             </button>
@@ -228,7 +219,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getFirestore, collection, doc, getDoc, getDocs, onSnapshot, updateDoc, increment, query, where, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        import { getFirestore, collection, doc, getDoc, getDocs, onSnapshot, updateDoc, increment, query, where } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
         const firebaseConfig = {
 apiKey: "AIzaSyDwH5hg4QRYcTzyPd492L9g2xG3QPvCWMY",
@@ -264,6 +255,7 @@ measurementId: "G-9YG52515FX"
             playerView: document.getElementById('player-view'),
             closePlayerBtn: document.getElementById('close-player-btn'),
             videoPlayer: document.getElementById('video-player'),
+            videoIframe: document.getElementById('video-iframe'),
             playerTitle: document.getElementById('player-title'),
             playerViews: document.getElementById('player-views'),
             likeBtn: document.getElementById('like-btn'),
@@ -275,7 +267,6 @@ measurementId: "G-9YG52515FX"
             autoplayIndicator: document.getElementById('autoplay-indicator'),
         };
 
-        // FIX: Added Shaka Player initialization and browser support check for stability.
         function initShakaPlayer() {
             shaka.polyfill.installAll();
             if (!shaka.Player.isBrowserSupported()) {
@@ -283,7 +274,6 @@ measurementId: "G-9YG52515FX"
             }
         }
         initShakaPlayer();
-
 
         const createSkeletonCard = () => `
             <div class="item-card">
@@ -322,7 +312,7 @@ measurementId: "G-9YG52515FX"
         }
 
         function renderItemCard(item, type) {
-             const label = type === 'movies' ? item.catalogue : type === 'series' ? 'Series' : 'Live TV';
+             const label = type === 'movies' ? (item.catalogue || 'Movie') : type === 'series' ? 'Series' : 'Live TV';
              return `
              <div class="item-card cursor-pointer" data-id="${item.id}" data-type="${type}">
                  <div class="item-card-image-container"><img src="${item.imageUrl}" alt="${item.name}" class="item-card-image">
@@ -335,28 +325,36 @@ measurementId: "G-9YG52515FX"
         async function renderMovies() {
             const container = document.getElementById('movies-content');
             container.innerHTML = moviesSkeletonHTML;
-            const [bannersSnapshot, moviesSnapshot] = await Promise.all([ getDocs(collection(db, 'banners')), getDocs(query(collection(db, 'movies'), where("isPublic", "==", true))) ]);
-            const banners = bannersSnapshot.docs.map(doc => doc.data());
-            const movies = moviesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            
-            const moviesByCategory = movies.reduce((acc, movie) => {
-                const category = movie.catalogue || 'Other';
-                if (!acc[category]) acc[category] = [];
-                acc[category].push(movie);
-                return acc;
-            }, {});
+            try {
+                const [bannersSnapshot, moviesSnapshot] = await Promise.all([ 
+                    getDocs(collection(db, 'banners')), 
+                    getDocs(query(collection(db, 'movies'), where("isPublic", "==", true))) 
+                ]);
+                const banners = bannersSnapshot.docs.map(doc => doc.data());
+                const movies = moviesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                
+                const moviesByCategory = movies.reduce((acc, movie) => {
+                    const category = movie.catalogue || 'Other';
+                    if (!acc[category]) acc[category] = [];
+                    acc[category].push(movie);
+                    return acc;
+                }, {});
 
-            container.innerHTML = `
-                <div class="banner-wrapper mb-8"><div class="banner-container">
-                    ${[...banners, ...banners].map(banner => `<div class="banner-item"><img src="${banner.url}"></div>`).join('')}
-                </div></div>
-                ${Object.keys(moviesByCategory).map(category => `
-                    <div class="mb-8"><h2 class="text-2xl font-bold mb-4">${category}</h2>
-                        <div class="horizontal-scroll">${moviesByCategory[category].map(movie => renderItemCard(movie, 'movies')).join('')}</div>
-                    </div>
-                `).join('') || '<p class="text-text-secondary">No movies available at the moment.</p>'}
-            `;
-            addClickListeners(container);
+                container.innerHTML = `
+                    <div class="banner-wrapper mb-8"><div class="banner-container">
+                        ${[...banners, ...banners].map(banner => `<div class="banner-item"><img src="${banner.url}"></div>`).join('')}
+                    </div></div>
+                    ${Object.keys(moviesByCategory).map(category => `
+                        <div class="mb-8"><h2 class="text-2xl font-bold mb-4">${category}</h2>
+                            <div class="horizontal-scroll">${moviesByCategory[category].map(movie => renderItemCard(movie, 'movies')).join('')}</div>
+                        </div>
+                    `).join('') || '<p class="text-text-secondary">No movies available at the moment.</p>'}
+                `;
+                addClickListeners(container);
+            } catch (err) {
+                console.error(err);
+                container.innerHTML = '<p class="text-error-color">Failed to load movies.</p>';
+            }
         }
 
         async function renderSeries(seriesId = null) {
@@ -369,7 +367,7 @@ measurementId: "G-9YG52515FX"
                 const seriesData = { id: seriesDoc.id, ...seriesDoc.data() };
                 wrapper.innerHTML = `
                     <button id="back-to-series" class="flex items-center gap-2 mb-6 font-semibold text-text-secondary hover:text-text-primary"><span class="material-symbols-outlined">arrow_back</span> Back to Series List</button>
-                    <div class="page-header"><h2>${seriesData.name} - Episodes</h2></div>
+                    <div class="page-header"><h2 class="text-2xl font-bold mb-4">${seriesData.name} - Episodes</h2></div>
                     <div class="grid-view">
                         ${seriesData.episodes.map((ep, idx) => renderEpisodeCard(ep, idx, seriesData)).join('')}
                     </div>
@@ -495,8 +493,16 @@ measurementId: "G-9YG52515FX"
                     shakaPlayer.destroy();
                     shakaPlayer = null;
                 }
+                // Reset Native Player
                 ui.videoPlayer.pause();
                 ui.videoPlayer.src = "";
+                ui.videoPlayer.removeAttribute('src'); 
+                
+                // Reset Iframe Player
+                ui.videoIframe.src = "";
+                ui.videoIframe.classList.add('hidden');
+                ui.videoPlayer.classList.remove('hidden');
+
                 if (unsubscribeFromLikes) unsubscribeFromLikes();
                 
                 ui.playerView.classList.add('opacity-0');
@@ -515,14 +521,17 @@ measurementId: "G-9YG52515FX"
             ui.playerTitle.textContent = data.item.name;
             ui.likeBtn.disabled = true;
 
+            // Cleanup previous player instance
             if (shakaPlayer) {
                 await shakaPlayer.destroy();
                 shakaPlayer = null;
             }
             ui.videoPlayer.src = "";
+            ui.videoIframe.src = "";
 
+            // Analytics
             const itemRef = doc(db, data.collection, data.item.id);
-            await updateDoc(itemRef, { views: increment(1) });
+            updateDoc(itemRef, { views: increment(1) }).catch(console.error);
             
             unsubscribeFromLikes = onSnapshot(itemRef, (docSnap) => {
                 if(docSnap.exists()){
@@ -535,29 +544,42 @@ measurementId: "G-9YG52515FX"
             });
 
             const videoUrl = data.type === 'series' ? data.episode.url : data.item.movieUrl || data.item.liveTvUrl;
-            const key = data.item.key;
-            const kid = data.item.kid;
+            const sourceType = data.item.sourceType || 'direct';
 
             if (!videoUrl) {
                 alert("Sorry, the video source could not be found.");
                 return;
             }
-
-            // FIX: Correctly detect protected live TV streams by checking for key/kid properties.
-            if (data.type === 'livetv' && key && kid) {
-                try {
-                    shakaPlayer = new shaka.Player(ui.videoPlayer);
-                    shakaPlayer.configure({
-                        drm: { clearKeys: { [kid]: key } }
-                    });
-                    await shakaPlayer.load(videoUrl);
-                } catch (error) {
-                    console.error('Shaka Player Error:', error);
-                    alert('Could not play the protected content.');
-                }
+            
+            // Logic to switch between Iframe and Native/Shaka Player
+            if (data.type === 'movies' && sourceType === 'iframe') {
+                ui.videoPlayer.classList.add('hidden');
+                ui.videoIframe.classList.remove('hidden');
+                ui.videoIframe.src = videoUrl;
             } else {
-                ui.videoPlayer.src = videoUrl;
-                ui.videoPlayer.play().catch(e => console.error("Autoplay prevented.", e));
+                ui.videoIframe.classList.add('hidden');
+                ui.videoPlayer.classList.remove('hidden');
+                
+                const key = data.item.key;
+                const kid = data.item.kid;
+                const isDash = (videoUrl.includes('.mpd') || (data.item && data.item.sourceType === 'mpd'));
+                const hasKeys = (key && kid);
+
+                if (data.type === 'livetv' && (isDash || hasKeys)) {
+                    try {
+                        shakaPlayer = new shaka.Player(ui.videoPlayer);
+                        if (hasKeys) {
+                            shakaPlayer.configure({ drm: { clearKeys: { [kid]: key } } });
+                        }
+                        await shakaPlayer.load(videoUrl);
+                    } catch (error) {
+                        console.error('Shaka Player Error:', error);
+                        alert('Could not play the stream.');
+                    }
+                } else {
+                    ui.videoPlayer.src = videoUrl;
+                    ui.videoPlayer.play().catch(e => console.error("Autoplay prevented.", e));
+                }
             }
 
             renderRelatedContent(data);
@@ -571,11 +593,11 @@ measurementId: "G-9YG52515FX"
             ui.relatedContent.innerHTML = relatedSkeletonHTML;
             let html = '';
             if (data.type === 'movies') {
-                const q = query(collection(db, 'movies'), where("catalogue", "==", data.item.catalogue), where("isPublic", "==", true));
+                const q = query(collection(db, 'movies'), where("catalogue", "==", data.item.catalogue || 'action'), where("isPublic", "==", true));
                 const snapshot = await getDocs(q);
                 const related = snapshot.docs.map(d => ({id: d.id, ...d.data()})).filter(m => m.id !== data.item.id);
                 html = related.map(m => renderItemCard(m, 'movies')).join('');
-                ui.relatedContentContainer.querySelector('h3').textContent = "More from " + data.item.catalogue;
+                ui.relatedContentContainer.querySelector('h3').textContent = "More " + (data.item.catalogue || "Movies");
             } else if (data.type === 'series') {
                 html = data.item.episodes.map((ep, idx) => renderEpisodeCard(ep, idx, data.item)).join('');
                 ui.relatedContentContainer.querySelector('h3').textContent = "All Episodes";

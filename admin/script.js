@@ -2,16 +2,15 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/fireba
 import { getFirestore, collection, addDoc, onSnapshot, doc, setDoc, deleteDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 // IMPORTANT: Replace with your actual Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyDwH5hg4QRYcTzyPd492L9g2xG3QPvCWMY",
-  authDomain: "haicenema.firebaseapp.com",
-  databaseURL: "https://haicenema-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "haicenema",
-  storageBucket: "haicenema.firebasestorage.app",
-  messagingSenderId: "825485404342",
-  appId: "1:825485404342:web:c488be2082a9b30c3cde17",
-  measurementId: "G-9YG52515FX"
+apiKey: "AIzaSyDwH5hg4QRYcTzyPd492L9g2xG3QPvCWMY",
+authDomain: "haicenema.firebaseapp.com",
+databaseURL: "https://haicenema-default-rtdb.asia-southeast1.firebasedatabase.app",
+projectId: "haicenema",
+storageBucket: "haicenema.firebasestorage.app",
+messagingSenderId: "825485404342",
+appId: "1:825485404342:web:c488be2082a9b30c3cde17",
+measurementId: "G-9YG52515FX"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -46,19 +45,27 @@ const ui = {
     nameInput: document.getElementById('name'),
     imageUrlInput: document.getElementById('image-url'),
     isPublicInput: document.getElementById('is-public'),
+    
+    // Movie Fields
     movieFields: document.getElementById('movie-fields'),
+    movieSourceType: document.getElementById('movie-source-type'),
     movieUrlInput: document.getElementById('movie-url'),
     catalogueInput: document.getElementById('catalogue'),
+    
+    // Series Fields
     seriesFields: document.getElementById('series-fields'),
     seriesNumberInput: document.getElementById('series-number'),
     episodesContainer: document.getElementById('episodes-container'),
     addEpisodeBtn: document.getElementById('add-episode-btn'),
+    
+    // Live TV Fields
     livetvFields: document.getElementById('livetv-fields'),
     livetvUrlInput: document.getElementById('livetv-url'),
     livetvSourceType: document.getElementById('livetv-source-type'),
     livetvMpdFields: document.getElementById('livetv-mpd-fields'),
     livetvKeyInput: document.getElementById('livetv-key'),
     livetvKidInput: document.getElementById('livetv-kid'),
+    
     cancelBtn: document.getElementById('cancel-btn'),
     formCloseBtn: document.getElementById('form-close-btn'),
     // Permissions Modal
@@ -101,6 +108,19 @@ function handleLiveTvSourceChange() {
     ui.livetvMpdFields.classList.toggle('hidden', sourceType !== 'mpd');
 }
 
+function handleMovieSourceChange() {
+    const type = ui.movieSourceType.value;
+    const label = document.getElementById('movie-url-label');
+    const input = ui.movieUrlInput;
+    if(type === 'iframe') {
+        label.textContent = "iFrame URL (Embed Link)";
+        input.placeholder = "https://example.com/embed/movie123";
+    } else {
+        label.textContent = "Stream URL (Video File)";
+        input.placeholder = "https://example.com/movie.mp4";
+    }
+}
+
 function addEpisodeInput(episode = { url: '', imageUrl: '' }) {
     episodeCounter++;
     const episodeDiv = document.createElement('div');
@@ -129,8 +149,12 @@ function resetForm() {
     ui.movieFields.classList.add('hidden');
     ui.seriesFields.classList.add('hidden');
     ui.livetvFields.classList.add('hidden');
+    
+    // Reset defaults
     ui.livetvSourceType.value = 'm3u8';
+    ui.movieSourceType.value = 'direct';
     handleLiveTvSourceChange();
+    handleMovieSourceChange();
 }
 
 function showModal(type, data = null) {
@@ -139,9 +163,15 @@ function showModal(type, data = null) {
         ui.modalTitle.textContent = data ? 'Edit Movie' : 'Add Movie';
         ui.movieFields.classList.remove('hidden');
         if (data) {
-            ui.editId.value = data.id; ui.nameInput.value = data.name; ui.imageUrlInput.value = data.imageUrl;
-            ui.movieUrlInput.value = data.movieUrl; ui.catalogueInput.value = data.catalogue; ui.isPublicInput.checked = data.isPublic;
+            ui.editId.value = data.id; 
+            ui.nameInput.value = data.name; 
+            ui.imageUrlInput.value = data.imageUrl;
+            ui.movieUrlInput.value = data.movieUrl; 
+            ui.catalogueInput.value = data.catalogue; 
+            ui.isPublicInput.checked = data.isPublic;
+            ui.movieSourceType.value = data.sourceType || 'direct';
         }
+        handleMovieSourceChange();
     } else if (type === 'series') {
         ui.modalTitle.textContent = data ? 'Edit Series' : 'Add Series';
         ui.seriesFields.classList.remove('hidden');
@@ -183,7 +213,12 @@ async function saveData(e) {
 
     let data;
     if (currentSection === 'movies') {
-        data = { ...commonData, movieUrl: ui.movieUrlInput.value, catalogue: ui.catalogueInput.value };
+        data = { 
+            ...commonData, 
+            movieUrl: ui.movieUrlInput.value, 
+            catalogue: ui.catalogueInput.value,
+            sourceType: ui.movieSourceType.value
+        };
     } else if (currentSection === 'series') {
         data = { ...commonData, seriesNumber: parseInt(ui.seriesNumberInput.value),
             episodes: Array.from(ui.episodesContainer.children).map(div => ({
@@ -369,6 +404,7 @@ ui.formCloseBtn.addEventListener('click', hideAllModals);
 ui.dataForm.addEventListener('submit', saveData);
 ui.addEpisodeBtn.addEventListener('click', () => addEpisodeInput());
 ui.livetvSourceType.addEventListener('change', handleLiveTvSourceChange);
+ui.movieSourceType.addEventListener('change', handleMovieSourceChange);
 
 ui.navLinks.forEach(link => {
     link.addEventListener('click', (e) => {
